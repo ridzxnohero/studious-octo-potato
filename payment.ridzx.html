@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metode Pembayaran</title>
+    <style>
+    .intro-video {
+  width: 100%;
+  max-width: 405px;
+  height: 190px; /* rasio 9:16 */
+  object-fit: cover;
+  border-radius: 16px;
+  display: block;
+  margin: 30px auto 10px auto;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+        :root {
+            --dark: #1a1a1a;
+            --gray: #2d2d2d;
+            --light-gray: #3d3d3d;
+            --accent: #e0e0e0;
+            --highlight: #4d4d4d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: #f0f0f0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .banner {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #4d4d4d;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background-color: var(--gray);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            margin-top: 10px;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 24px;
+        }
+        
+        .payment-method {
+            background-color: var(--light-gray);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        
+        .payment-method:hover {
+            background-color: var(--highlight);
+            border-color: #5a5a5a;
+            transform: translateY(-2px);
+        }
+        
+        .payment-icon {
+            width: 40px;
+            height: 40px;
+            margin-right: 15px;
+            object-fit: contain;
+        }
+        
+        .payment-details {
+            flex: 1;
+        }
+        
+        .payment-name {
+            font-weight: 600;
+            margin-bottom: 3px;
+            color: #ffffff;
+        }
+        
+        .payment-number {
+            font-size: 14px;
+            color: #b0b0b0;
+            word-break: break-all;
+        }
+        
+        .action-btn {
+            background-color: var(--highlight);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+            margin-left: 8px;
+        }
+        
+        .action-btn:hover {
+            background-color: #5a5a5a;
+        }
+        
+        .btn-group {
+            display: flex;
+        }
+        
+        .qris-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .qris-title {
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+        
+        .qris-image {
+            max-width: 100%;
+            border-radius: 8px;
+            border: 1px solid #5a5a5a;
+        }
+        
+        .note {
+            margin-top: 25px;
+            font-size: 13px;
+            color: #a0a0a0;
+            text-align: center;
+            line-height: 1.5;
+        }
+        
+        .divider {
+            height: 1px;
+            background-color: #4d4d4d;
+            margin: 20px 0;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            overflow: auto;
+        }
+        
+        .modal-content {
+            background-color: var(--gray);
+            margin: 10% auto;
+            padding: 25px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: modalopen 0.3s;
+        }
+        
+        @keyframes modalopen {
+            from {opacity: 0; transform: translateY(-50px)}
+            to {opacity: 1; transform: translateY(0)}
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close:hover {
+            color: white;
+        }
+        
+        .modal-body {
+            margin-bottom: 20px;
+        }
+        
+        .modal-payment-number {
+            background-color: var(--light-gray);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 18px;
+            word-break: break-all;
+        }
+        
+        .modal-qris {
+            text-align: center;
+        }
+        
+        .modal-qris img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+<style>
+  body, html {
+    margin: 0; padding: 0; overflow: hidden; height: 100%;
+    background: #000814;
+    position: relative;
+  }
+  canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none; /* supaya tidak ganggu klik */
+    z-index: -1;
+  }
+    </style>
+</head>
+<body>
+<audio>
+<audio id="backsound" autoplay loop>
+  <source src="https://files.catbox.moe/bognd8.mp3" type="audio/mpeg" />
+  Browser kamu tidak mendukung audio.
+</audio>  
+    <!-- Video Intro -->
+<video class="intro-video" autoplay muted loop playsinline>
+  <source src="https://files.catbox.moe/nwij8g.mp4" type="video/mp4" />
+  Browser tidak mendukung video.
+</video>
+    
+    <div class="container">
+        <h1>Metode Pembayaran</h1>
+        
+        <div class="payment-method">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg" alt="DANA" class="payment-icon">
+            <div class="payment-details">
+                <div class="payment-name">DANA</div>
+                <div class="payment-number">belum ada</div>
+            </div>
+            <div class="btn-group">
+                <button class="action-btn" onclick="showPaymentModal('DANA', 'belum ada')">Lihat</button>
+                <button class="action-btn" onclick="copyToClipboard('belum ada')">Salin</button>
+            </div>
+        </div>
+        
+        <div class="payment-method">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg" alt="GOPAY" class="payment-icon">
+            <div class="payment-details">
+                <div class="payment-name">GOPAY</div>
+                <div class="payment-number">081286980074</div>
+            </div>
+            <div class="btn-group">
+                <button class="action-btn" onclick="showPaymentModal('GOPAY', '081286980074')">Lihat</button>
+                <button class="action-btn" onclick="copyToClipboard('081286980074')">Salin</button>
+            </div>
+        </div>
+        
+        <div class="payment-method">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo_ovo_purple.svg" alt="OVO" class="payment-icon">
+            <div class="payment-details">
+                <div class="payment-name">OVO</div>
+                <div class="payment-number">belum ada</div>
+            </div>
+            <div class="btn-group">
+                <button class="action-btn" onclick="showPaymentModal('OVO', 'belum ada')">Lihat</button>
+                <button class="action-btn" onclick="copyToClipboard('08970990675')">Salin</button>
+            </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="qris-container">
+            <div class="qris-title">QRIS (ALL PAYMENT)</div>
+            <img src="https://files.catbox.moe/wjb4mi.jpg" alt="QRIS Payment" class="qris-image">
+        </div>
+        
+        <p class="note">
+            Silakan pilih metode pembayaran yang tersedia.<br>
+            Setelah melakukan pembayaran, harap konfirmasi dengan mengirimkan bukti transfer.
+        </p>
+    </div>
+    
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title" id="modalTitle">DANA</span>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="modal-payment-number" id="modalPaymentNumber">08970990675</div>
+                <div class="modal-qris">
+                    <img src="" alt="QRIS Payment">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+  const canvas = document.createElement('canvas');
+  document.body.appendChild(canvas);
+  const ctx = canvas.getContext('2d');
+
+  let width, height;
+  function resize() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  class Bubble {
+    constructor() {
+      this.reset();
+    }
+    reset() {
+      this.x = Math.random() * width;
+      this.y = Math.random() * height;
+      this.radius = 5 + Math.random() * 30; // ukuran variatif
+      this.speedX = (Math.random() - 0.5) * 0.5; // gerak pelan x
+      this.speedY = (Math.random() - 0.5) * 0.5; // gerak pelan y
+      this.alpha = 0.3 + Math.random() * 0.7;
+      this.color = 'rgba(255, 215, 0,' + this.alpha + ')'; // warna emas transparan
+    }
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+
+      // Kalau keluar layar, muncul lagi dari sisi seberang
+      if (this.x - this.radius > width) this.x = -this.radius;
+      if (this.x + this.radius < 0) this.x = width + this.radius;
+      if (this.y - this.radius > height) this.y = -this.radius;
+      if (this.y + this.radius < 0) this.y = height + this.radius;
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fillStyle = this.color;
+      ctx.shadowColor = 'gold';
+      ctx.shadowBlur = 10;
+      ctx.fill();
+    }
+  }
+
+  const bubbles = [];
+  const NUM_BUBBLES = 40;
+  for(let i=0; i < NUM_BUBBLES; i++) {
+    bubbles.push(new Bubble());
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, width, height);
+    bubbles.forEach(bubble => {
+      bubble.update();
+      bubble.draw();
+    });
+    requestAnimationFrame(animate);
+  }
+  animate();
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Nomor berhasil disalin: ' + text);
+            }).catch(err => {
+                console.error('Gagal menyalin: ', err);
+            });
+        }
+        
+        function showPaymentModal(paymentMethod, paymentNumber) {
+            document.getElementById('modalTitle').textContent = paymentMethod;
+            document.getElementById('modalPaymentNumber').textContent = paymentNumber;
+            document.getElementById('paymentModal').style.display = 'block';
+        }
+        
+        function closeModal() {
+            document.getElementById('paymentModal').style.display = 'none';
+        }
+        
+        // Close modal when clicking outside of it.
+        window.onclick = function(event) {
+            const modal = document.getElementById('paymentModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+ 
+    </script>
+</body>
+</html>
+</audio>
